@@ -1,16 +1,28 @@
 const express = require('express');
 const app = express();
-const foodmodel = require('./models/Food');
-const usermodel = require('./models/User');
+//const usermodel = require('./models/User');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { findById, findByIdAndRemove } = require('./models/Food');
+
+
 app.use(express.json())
 app.use(cors())
 
 mongoose.connect("mongodb+srv://1776771:1776771@crud.cd4yl.mongodb.net/CRUDtest?retryWrites=true&w=majority", {
     useNewUrlParser: true
 })
+
+
+
+
+
+
+app.listen(3001, ()=> {
+    console.log('Server Running on port 3001...')
+})
+
+
+/*
 
 app.get('/', async(req, res) => {
     const result = await usermodel.find({})
@@ -64,9 +76,4 @@ app.delete('/delete/:id', async(req, res) => {
     res.send("deleted")
 })
 
-
-
-
-app.listen(3001, ()=> {
-    console.log('Server Running on port 3001...')
-})
+*/
