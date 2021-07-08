@@ -5,12 +5,14 @@ const jwt = require("jsonwebtoken");
 const exp = (req, res, next) => {
     try {
         const token = req.header('x-auth-token')
-        jwt.verify(token, 'longer-is-better')
+        
+        jwt.verify(token, 'your-256-bit-secret')
         next();
     } catch (error) {
-        res.status(401).json({
-            Message:'No token cannot autherize'
-        })
+        res.status(401).json(
+            `${error.message} + ${error.name}`
+        
+        )
     }
 }
 

@@ -29,28 +29,30 @@ router.post('/signin', (req, res, next) => {
         if (!response) {
             return res.status(401).json({message: "Password Failed"})
         }
-
-        //dunno
+        
+        //generate token
         let jwtToken = jwt.sign(
-
+            
             {
             email : getUser.email,
             userId : getUser._id
             },
-            "longer-secret-is-better",
-            {expiresIn: '1h'}
+            'your-256-bit-secret',
+            {
+         //       expiresIn: '1h',
+            }
 
             )
-
-        res.status(200).json(
-            {
-                token : jwtToken,
-                expiresIn : 3600,
-                msg : getUser,
-            })
-            .catch((err) => {
-                return res.status(401).json({message : 'Auth Failed 2'})
-            })
+            try{
+             res.status(200).json(
+                {
+                    token : jwtToken,
+              //      expiresIn : 3600,
+                    msg : getUser,
+                })
+            }catch (error)  {
+                return res.status(401).json({message : error})
+            }
     })
 
  
@@ -75,10 +77,16 @@ router.post('/register', (req, res, next) => {
                     message: "User Create",
                     result : response,
                 })
-                .catch((error) => {
-                    res.status(500).json({error})
-                })
+                
         })
     })
 })
+
+router.route('/all-user').get(auth, (req, res, next) => { 
+    userSchema.find({}).then( (data) => {
+        res.json(data)
+    })
+    
+})
+
 module.exports = router
